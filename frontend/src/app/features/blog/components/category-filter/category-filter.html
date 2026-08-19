@@ -1,0 +1,18 @@
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="mt-4 flex flex-wrap items-center gap-3">
+    <button (click)="select(undefined)" [attr.aria-pressed]="!selected" class="badge" type="button">All</button>
+    @for (cat of categories; track cat) {
+      <button
+        (click)="select(cat)"
+        [attr.aria-pressed]="selected === cat"
+        type="button"
+        class="badge"
+      >
+        {{ cat }}
+      </button>
+    }
+    @if (selected) {
+      <button (click)="select(undefined)" class="ml-auto text-sm link-quiet" type="button">Clear filters</button>
+    }
+  </div>
+</div>

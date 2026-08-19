@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="DevJourney.Api/DevJourney.Api.csproj" />
+  <Project Path="DevJourney.Application/DevJourney.Application.csproj" />
+  <Project Path="DevJourney.Domain/DevJourney.Domain.csproj" />
+  <Project Path="DevJourney.Infrastructure/DevJourney.Infrastructure.csproj" />
+</Solution>

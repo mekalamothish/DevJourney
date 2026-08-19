@@ -1,0 +1,78 @@
+/* Global styles. Design tokens live here as Tailwind v4 CSS theme vars —
+   see /docs/ui-reference-analysis.md for the rationale behind the palette
+   and type choices. Components should reach for these utilities (bg-ink,
+   text-accent, font-display, .btn-accent, etc.) rather than one-off hex
+   values or font names. */
+
+@import 'tailwindcss';
+
+@theme {
+  /* Palette — 6 named colors, deliberately not the "warm cream + terracotta"
+     or "near-black + acid accent" combinations that read as generic-AI
+     defaults. Ink/canvas/surface/border are quiet; accent (a marigold
+     "highlighter" tone) and signal (a muted slate-indigo) do the work. */
+  --color-ink: #14171f;
+  --color-canvas: #fafaf9;
+  --color-surface: #ffffff;
+  --color-border: #e3e5ea;
+  --color-accent: #e8a33d;
+  --color-signal: #33415c;
+
+  /* Type — a technical display face for headings, a workhorse serif-free
+     body face built for long-form reading, and a monospace used for code
+     AND, sparingly, for metadata/badges to echo an IDE/git vocabulary. */
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-ink;
+  }
+
+  :focus-visible {
+    @apply outline-accent outline-2 outline-offset-2;
+  }
+}
+
+@layer components {
+  /* Solid dark button — general-purpose primary action (form submits, etc). */
+  .btn-primary {
+    @apply hover:bg-ink/85 focus-visible:outline-accent inline-flex items-center justify-center gap-2 rounded-md bg-ink px-4 py-2 text-sm font-medium text-canvas transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  /* Amber-filled button — reserved for the single highest-emphasis action
+     on a screen (header CTA, newsletter subscribe). Spend it deliberately. */
+  .btn-accent {
+    @apply hover:bg-accent/90 focus-visible:outline-ink inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-ink transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  .btn-secondary {
+    @apply hover:border-ink/30 focus-visible:outline-accent inline-flex items-center justify-center gap-2 rounded-md border border-border bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  /* Mono-set pill, used for category/tag badges — a quiet nod to the
+     git-branch/README-badge vocabulary developers already read daily. */
+  .badge {
+    @apply text-ink/70 inline-flex items-center rounded-full border border-border bg-surface px-2.5 py-0.5 font-mono text-xs;
+  }
+
+  .card {
+    @apply rounded-lg border border-border bg-surface;
+  }
+
+  .link-quiet {
+    @apply text-ink/70 hover:text-ink underline-offset-4 hover:underline;
+  }
+}

@@ -1,0 +1,11 @@
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/bin/Debug/net10.0/DevJourney.Domain.deps.json
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/bin/Debug/net10.0/DevJourney.Domain.dll
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/bin/Debug/net10.0/DevJourney.Domain.pdb
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/obj/Debug/net10.0/DevJourney.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/obj/Debug/net10.0/DevJourney.Domain.AssemblyInfoInputs.cache
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/obj/Debug/net10.0/DevJourney.Domain.AssemblyInfo.cs
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/obj/Debug/net10.0/DevJourney.Domain.csproj.CoreCompileInputs.cache
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/obj/Debug/net10.0/DevJourney.Domain.dll
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/obj/Debug/net10.0/refint/DevJourney.Domain.dll
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/obj/Debug/net10.0/DevJourney.Domain.pdb
+/Users/mekalamothish/Downloads/devjourney/backend/DevJourney.Domain/obj/Debug/net10.0/ref/DevJourney.Domain.dll

@@ -1,0 +1,14 @@
+<section class="my-8">
+  <h3 class="text-lg font-semibold text-ink">Frequently Asked Questions</h3>
+  <div class="mt-4">
+    <div *ngFor="let f of items; let i = index" class="border-b py-3">
+      <button (click)="toggle(i)" class="w-full text-left">
+        <div class="flex items-center justify-between">
+          <div class="text-sm font-medium text-ink">{{ f.q }}</div>
+          <div class="text-ink/60">{{ openIndex === i ? '−' : '+' }}</div>
+        </div>
+      </button>
+      <div *ngIf="openIndex === i" class="mt-2 text-ink/90">{{ f.a }}</div>
+    </div>
+  </div>
+</section>

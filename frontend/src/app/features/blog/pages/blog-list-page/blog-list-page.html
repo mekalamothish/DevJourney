@@ -1,0 +1,45 @@
+<section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+  <header class="mx-auto max-w-4xl">
+    <p class="font-mono text-sm text-ink/60">Articles</p>
+    <h1 class="mt-2 font-display text-3xl font-semibold text-ink">Practical notes for building software</h1>
+    <p class="mt-3 text-sm text-ink/70">Learn about C#, .NET, Angular, SQL, system design, interview prep, and practical engineering notes.</p>
+    <div class="mt-3 text-xs text-ink/50">{{ filteredCount() }} articles</div>
+  </header>
+
+  <dj-blog-search [value]="searchControl.value ?? ''" (valueChange)="searchControl.setValue($event)" />
+
+  @if (error()) {
+    <div class="mt-6 rounded-md bg-red-50 p-4">
+      <p class="text-sm text-red-800">{{ error() }}</p>
+      <button (click)="clearFilters()" class="mt-3 text-sm link">Try clearing filters</button>
+    </div>
+  }
+
+  <dj-category-filter [categories]="categories()" [selected]="selectedCategory()" (selectedChange)="onCategory($event)" />
+
+  <dj-featured-article />
+
+  <div class="mx-auto mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <div class="lg:col-span-2">
+      <div id="article-list" class="transition-all duration-300 ease-in-out" [class.opacity-50]="isLoading()" [class.pointer-events-none]="isLoading()">
+        @if (paginated().length === 0) {
+          @if (!error()) {
+            <dj-empty-state  (clear)="clearFilters()" />
+          }
+        } @else {
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3">
+            @for (post of paginated(); track post.id) {
+              <dj-blog-card class="block h-full" [post]="post" />
+            }
+          </div>
+
+          <dj-blog-pagination [current]="currentPage()" [total]="totalPages()" (pageChange)="onPage($event)" />
+        }
+      </div>
+    </div>
+
+    <aside class="lg:col-span-1">
+      <dj-popular-articles />
+    </aside>
+  </div>
+</section>

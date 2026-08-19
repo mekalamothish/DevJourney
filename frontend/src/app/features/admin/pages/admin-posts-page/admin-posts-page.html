@@ -1,0 +1,67 @@
+<section class="p-6">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold">Posts</h1>
+    <div class="flex items-center gap-2">
+      <input [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Search articles..." class="input" />
+      <a [routerLink]="['/admin/articles/new']" class="btn-primary">+ New Article</a>
+    </div>
+  </div>
+
+  <div class="mt-4 flex items-center gap-3">
+    <div class="space-x-2">
+      <button (click)="selectedStatus.set('all')" [class.font-semibold]="selectedStatus() === 'all'" class="text-sm">All</button>
+      <button (click)="selectedStatus.set('published')" [class.font-semibold]="selectedStatus() === 'published'" class="text-sm">Published</button>
+      <button (click)="selectedStatus.set('draft')" [class.font-semibold]="selectedStatus() === 'draft'" class="text-sm">Draft</button>
+      <button (click)="selectedStatus.set('archived')" [class.font-semibold]="selectedStatus() === 'archived'" class="text-sm">Archived</button>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="mt-6 text-center">
+      <p class="text-sm text-ink/60">Loading articles...</p>
+    </div>
+  } @else if (error()) {
+    <div class="mt-6 rounded-md bg-red-50 p-4">
+      <p class="text-sm text-red-800">{{ error() }}</p>
+    </div>
+  } @else if (filteredPosts().length === 0) {
+    <div class="mt-6 text-center">
+      <p class="text-sm text-ink/60">No articles found</p>
+    </div>
+  } @else {
+    <div class="mt-6">
+      <table class="w-full table-auto">
+        <thead>
+          <tr class="text-left text-sm text-ink/60">
+            <th class="px-2 py-2">Article</th>
+            <th class="px-2 py-2">Category</th>
+            <th class="px-2 py-2">Status</th>
+            <th class="px-2 py-2">Updated</th>
+            <th class="px-2 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of filteredPosts(); track p.id) {
+            <tr class="border-t">
+              <td class="px-2 py-3">
+                <div class="font-medium"><a [routerLink]="['/blog', p.slug]" target="_blank" class="link-quiet">{{ p.title }}</a></div>
+                <div class="text-xs text-ink/60">{{ p.excerpt }}</div>
+              </td>
+              <td class="px-2 py-3">{{ p.category.name }}</td>
+              <td class="px-2 py-3">{{ p.status || 'draft' }}</td>
+              <td class="px-2 py-3">{{ p.updatedAt || p.createdAt }}</td>
+              <td class="px-2 py-3">
+                <div class="flex items-center gap-2">
+                  <a [routerLink]="['/admin/articles', p.id, 'edit']" class="btn-ghost">Edit</a>
+                  <a [routerLink]="['/admin/articles', p.id, 'preview']" class="btn-ghost">Preview</a>
+                  <button (click)="togglePublish(p)" class="btn-ghost">{{ p.status === 'published' ? 'Unpublish' : 'Publish' }}</button>
+                  <button (click)="delete(p)" class="btn-danger">Delete</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

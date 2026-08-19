@@ -1,0 +1,8 @@
+<nav class="mt-8 flex items-center justify-between">
+  <div *ngIf="prev" class="flex items-center gap-3">
+    <a [routerLink]="['/blog', prev.slug]" class="link-quiet">← {{ prev.title }}</a>
+  </div>
+  <div *ngIf="next" class="ml-auto">
+    <a [routerLink]="['/blog', next.slug]" class="link-quiet">{{ next.title }} →</a>
+  </div>
+</nav>

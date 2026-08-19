@@ -1,0 +1,150 @@
+<section class="p-6">
+  @if (isLoading()) {
+    <div class="text-center">
+      <p class="text-sm text-ink/60">Loading article...</p>
+    </div>
+  } @else if (error()) {
+    <div class="rounded-md bg-red-50 p-4">
+      <p class="text-sm text-red-800">{{ error() }}</p>
+    </div>
+  } @else {
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-semibold">Post Editor</h1>
+      <div class="flex items-center gap-2">
+        <button (click)="saveDraft()" [disabled]="isSaving()" class="btn-ghost">{{ isSaving() ? 'Saving...' : 'Save Draft' }}</button>
+        @if (editingId) {
+          <a [routerLink]="['/admin/articles', editingId, 'preview']" class="btn-ghost">Preview</a>
+        }
+        <button (click)="publish()" [disabled]="isSaving()" class="btn-primary">{{ isSaving() ? 'Publishing...' : 'Publish' }}</button>
+        <a [routerLink]="['/admin']" class="btn-ghost">Close</a>
+      </div>
+    </div>
+
+    <form class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <label class="block">Title
+          <input [(ngModel)]="model().title" name="title" class="input w-full border p-2 border-gray-500/50 rounded-md" />
+        </label>
+
+        <label class="block mt-3">Slug
+          <input [(ngModel)]="model().slug" name="slug" class="input w-full border p-2 border-gray-500/50 rounded-md" />
+        </label>
+
+        <label class="block mt-3">Excerpt
+          <textarea [(ngModel)]="model().excerpt" name="excerpt" class="input rounded-md border border-gray-500/50 w-full h-24 p-2"></textarea>
+        </label>
+
+        <div class="mt-4 border-t"></div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Content Blocks</h3>
+          <div class="mt-2 flex gap-2">
+            <select [ngModel]="newBlockType()" (ngModelChange)="newBlockType.set($event)" name="blockType" class="input">
+              <option value="paragraph">Paragraph</option>
+              <option value="heading">Heading</option>
+              <option value="code">Code</option>
+              <option value="list">List</option>
+              <option value="callout">Callout</option>
+              <option value="table">Table</option>
+              <option value="takeaways">Takeaways</option>
+              <option value="faq">FAQ</option>
+              <option value="terminal">Terminal</option>
+            </select>
+            <button type="button" (click)="addBlock()" class="btn-ghost">Add</button>
+          </div>
+
+          <div class="mt-4 space-y-3">
+            @for (b of model().content; track $index) {
+              <div class="rounded-md border p-3 border-gray-500/50">
+                <div class="flex items-start justify-between">
+                  <div class="font-medium">{{ b.type }}</div>
+                  <div class="flex gap-2">
+                    <button type="button" (click)="moveUp($index)" class="btn-ghost">↑</button>
+                    <button type="button" (click)="moveDown($index)" class="btn-ghost">↓</button>
+                    <button type="button" (click)="removeBlock($index)" class="btn-danger">Delete</button>
+                  </div>
+                </div>
+
+                <div class="mt-2">
+                  @switch (b.type) {
+                    @case ('paragraph') {
+                      <textarea [(ngModel)]="b.text" name="p-{{ $index }}" class="input w-full h-20 border border-gray-500/50 p-2 rounded-md"></textarea>
+                    }
+                    @case ('heading') {
+                      <input [(ngModel)]="b.text" name="h-{{ $index }}" class="input w-full border p-2 border-gray-500/50 rounded-md" placeholder="Heading text" />
+                      <input [(ngModel)]="b.id" name="hid-{{ $index }}" class="input w-full mt-2" placeholder="anchor id (optional)" />
+                    }
+                    @case ('code') {
+                      <input [(ngModel)]="b.language" name="lang-{{ $index }}" class="input w-full border p-2 border-gray-500/50 rounded-md" placeholder="Language (typescript)" />
+                      <textarea [(ngModel)]="b.code" name="code-{{ $index }}" class="input w-full h-40"></textarea>
+                    }
+                    @case ('list') {
+                      <textarea [(ngModel)]="b.itemsText" name="list-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="One list item per line"></textarea>
+                    }
+                    @case ('callout') {
+                      <select [(ngModel)]="b.variant" name="variant-{{ $index }}" class="input">
+                        <option value="note">Note</option>
+                        <option value="tip">Tip</option>
+                        <option value="warning">Warning</option>
+                        <option value="important">Important</option>
+                      </select>
+                      <input [(ngModel)]="b.heading" name="chead-{{ $index }}" class="input w-full mt-2" placeholder="Callout heading (optional)" />
+                      <textarea [(ngModel)]="b.text" name="ctext-{{ $index }}" class="input w-full h-24 mt-2"></textarea>
+                    }
+                    @case ('table') {
+                      <textarea [(ngModel)]="b.csv" name="table-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="Comma-separated rows, first row is headers"></textarea>
+                    }
+                    @case ('takeaways') {
+                      <textarea [(ngModel)]="b.itemsText" name="take-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="One takeaway per line"></textarea>
+                    }
+                    @case ('faq') {
+                      <textarea [(ngModel)]="b.itemsText" name="faq-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="Each FAQ on two lines: Q then A, separate pairs with a blank line"></textarea>
+                    }
+                    @case ('terminal') {
+                      <div>
+                        <label class="block text-sm font-medium mb-2">Terminal lines (one per line)</label>
+                        <textarea [(ngModel)]="b.linesText" name="term-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="One command per line"></textarea>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <aside class="lg:col-span-1">
+        <div class="rounded-md border border-gray-500/50 p-4 ">
+          <label class="block">Category
+            <select [(ngModel)]="model().categoryId" name="categoryId" class="input w-full border p-2 border-gray-500/50 rounded-md">
+              @for (c of categories(); track c.id) {
+                <option [value]="c.id">{{ c.name }}</option>
+              }
+            </select>
+          </label>
+          <label class="block mt-3">Reading time
+            <input type="number" [(ngModel)]="model().readingTime" name="readingTime" class="input w-full border p-2 border-gray-500/50 rounded-md" />
+          </label>
+          <label class="block mt-3">Author
+            <select [(ngModel)]="model().authorId" name="authorId" class="input w-full border p-2 border-gray-500/50 rounded-md">
+              @for (a of authors(); track a.id) {
+                <option [value]="a.id">{{ a.name }}</option>
+              }
+            </select>
+          </label>
+          <label class="block mt-3">Tags (comma separated)
+            <input [ngModel]="tagsCsv()" (ngModelChange)="tagsCsv.set($event)" name="tags" class="input w-full border p-2 border-gray-500/50 rounded-md" />
+          </label>
+        </div>
+
+        <div class="mt-4 rounded-md border border-gray-500/50 p-4">
+          <div class="font-semibold">Preview</div>
+          <div class="mt-3">
+            <dj-article-content [blocks]="model().content || []"></dj-article-content>
+          </div>
+        </div>
+      </aside>
+    </form>
+  }
+</section>

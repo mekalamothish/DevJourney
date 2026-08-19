@@ -1,0 +1,88 @@
+<footer class="border-t border-border bg-ink text-canvas">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div class="max-w-sm">
+        <a routerLink="/" class="flex items-center gap-2.5">
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-md bg-accent font-mono text-sm font-semibold text-ink"
+            aria-hidden="true"
+            >&lt;/&gt;</span
+          >
+          <span class="font-display text-lg font-semibold tracking-tight text-canvas">{{
+            site.name
+          }}</span>
+        </a>
+        <p class="mt-4 text-sm leading-relaxed text-canvas/70">{{ site.description }}</p>
+        <div class="mt-5 flex flex-wrap gap-2">
+          @for (item of site.social; track item.label) {
+            <a
+              [href]="item.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 rounded-full border border-canvas/20 px-2.5 py-1 font-mono text-xs text-canvas/70 transition-colors hover:border-canvas/40 hover:text-canvas"
+            >
+              {{ item.label }}
+              <span aria-hidden="true">↗</span>
+            </a>
+          }
+        </div>
+      </div>
+
+      <nav aria-label="Footer navigation">
+        <h2 class="font-display text-sm font-semibold text-canvas">Navigate</h2>
+        <ul class="mt-4 space-y-2.5">
+          @for (link of site.footer.navigation; track link.label) {
+            <li>
+              <a [routerLink]="link.path" class="text-sm text-canvas/70 hover:text-canvas">{{
+                link.label
+              }}</a>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="Footer topics">
+        <h2 class="font-display text-sm font-semibold text-canvas">Topics</h2>
+        <ul class="mt-4 space-y-2.5">
+          @for (link of site.footer.topics; track link.label) {
+            <li>
+              <a [routerLink]="link.path" class="text-sm text-canvas/70 hover:text-canvas">{{
+                link.label
+              }}</a>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="Footer resources">
+        <h2 class="font-display text-sm font-semibold text-canvas">Resources</h2>
+        <ul class="mt-4 space-y-2.5">
+          @for (link of site.footer.resources; track link.label) {
+            <li>
+              @if (link.external) {
+                <a
+                  [href]="link.path"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm text-canvas/70 hover:text-canvas"
+                  >{{ link.label }}</a
+                >
+              } @else {
+                <a
+                  [routerLink]="link.path"
+                  [fragment]="link.fragment"
+                  class="text-sm text-canvas/70 hover:text-canvas"
+                  >{{ link.label }}</a
+                >
+              }
+            </li>
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <div class="mt-12 border-t border-canvas/10 pt-6 text-xs text-canvas/50">
+      <p>&copy; {{ currentYear }} {{ site.name }}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,55 @@
+@if (isLoading()) {
+  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="text-sm text-ink/60">Loading article...</p>
+    </div>
+  </section>
+} @else if (error()) {
+  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <h2 class="font-display text-2xl font-semibold text-ink">{{ error() }}</h2>
+      <p class="mt-3 text-sm text-ink/70">The article you're looking for doesn't exist or couldn't be loaded.</p>
+      <div class="mt-6">
+        <a routerLink="/blog" class="btn-secondary">← Back to Articles</a>
+      </div>
+    </div>
+  </section>
+} @else if (!post()) {
+  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <h2 class="font-display text-2xl font-semibold text-ink">Article Not Found</h2>
+      <p class="mt-3 text-sm text-ink/70">The article you're looking for doesn't exist.</p>
+      <div class="mt-6">
+        <a routerLink="/blog" class="btn-secondary">← Back to Articles</a>
+      </div>
+    </div>
+  </section>
+} @else {
+  <article class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <a routerLink="/blog" class="text-sm link-quiet">← Back to Articles</a>
+
+    <div class="mt-4 lg:flex lg:gap-10">
+      <main class="prose mx-auto w-full max-w-3xl lg:order-2">
+        <dj-article-header [post]="post()!" />
+
+        <dj-article-content [blocks]="post()!.content || []" />
+
+        <dj-article-navigation [prev]="prev()" [next]="next()" />
+
+        <dj-related-articles [posts]="related()" />
+
+        <dj-article-author [author]="post()!.author" />
+      </main>
+
+      <aside class="hidden lg:order-1 lg:block lg:w-72">
+        <dj-article-toc [blocks]="post()!.content || []" />
+        <div class="mt-6">
+          <dj-article-share />
+        </div>
+        <div class="mt-6">
+        <dj-related-articles [posts]="related()" [compact]="true" />
+        </div>
+      </aside>
+    </div>
+  </article>
+}

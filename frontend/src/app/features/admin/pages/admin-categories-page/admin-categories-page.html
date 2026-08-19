@@ -1,0 +1,65 @@
+<section class="p-6">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold">Categories</h1>
+    <div>
+      <button (click)="showNew.set(!showNew())" class="btn-primary">+ New Category</button>
+    </div>
+  </div>
+
+  @if (showNew()) {
+    <div class="mt-4 rounded-md border border-gray-500/50 p-4">
+      <label class="block">Name
+        <input [ngModel]="newName()" (ngModelChange)="newName.set($event)" class="input w-full border p-2 border-gray-500/50 rounded-md" />
+      </label>
+      <label class="block mt-2">Slug
+        <input [ngModel]="newSlug()" (ngModelChange)="newSlug.set($event)" class="input w-full border p-2 border-gray-500/50 rounded-md" />
+      </label>
+      <div class="mt-3">
+        <button (click)="create()" [disabled]="isSaving()" class="btn-primary">{{ isSaving() ? 'Creating...' : 'Create' }}</button>
+        <button (click)="cancel()" class="btn-ghost">Cancel</button>
+      </div>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="mt-4 rounded-md bg-red-50 p-4">
+      <p class="text-sm text-red-800">{{ error() }}</p>
+    </div>
+  }
+
+  @if (isLoading()) {
+    <div class="mt-6 text-center">
+      <p class="text-sm text-ink/60">Loading categories...</p>
+    </div>
+  } @else if (categories().length === 0) {
+    <div class="mt-6 text-center">
+      <p class="text-sm text-ink/60">No categories found</p>
+    </div>
+  } @else {
+    <div class="mt-6 overflow-auto">
+      <table class="w-full table-auto">
+        <thead>
+          <tr class="text-left text-sm text-ink/60">
+            <th class="px-2 py-2">Name</th>
+            <th class="px-2 py-2">Slug</th>
+            <th class="px-2 py-2">Articles</th>
+            <th class="px-2 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of categories(); track c.id) {
+            <tr class="border-t">
+              <td class="px-2 py-3">{{ c.name }}</td>
+              <td class="px-2 py-3">{{ c.slug }}</td>
+              <td class="px-2 py-3">{{ countArticles(c) }}</td>
+              <td class="px-2 py-3">
+                <button (click)="edit(c)" class="btn-ghost">Edit</button>
+                <button (click)="remove(c)" class="btn-danger">Delete</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

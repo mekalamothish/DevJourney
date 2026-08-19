@@ -1,0 +1,18 @@
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <label class="sr-only" for="blog-search">Search articles</label>
+  <div class="mt-4">
+    <div class="relative">
+      <input
+        id="blog-search"
+        type="search"
+        [value]="value"
+        (input)="onInput($event)"
+        placeholder="Search articles by title, excerpt, category, or tag"
+        class="w-full rounded-md border border-border bg-surface px-4 py-3 text-sm placeholder:text-ink/50 focus-visible:outline-accent"
+      />
+      <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-ink/50">
+        🔍
+      </div>
+    </div>
+  </div>
+</div>

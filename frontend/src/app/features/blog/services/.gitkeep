@@ -1,0 +1,3 @@
+Mock BlogPost data + a simple in-memory "repository" service will live here
+starting Step 6 (blog listing). Kept as an empty, tracked folder so the
+Section 30 feature structure is visible before that code exists.

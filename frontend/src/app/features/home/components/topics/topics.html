@@ -1,0 +1,10 @@
+<section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-4xl">
+    <h2 class="font-display text-2xl font-semibold text-ink">Explore Topics</h2>
+    <div class="mt-4 flex flex-wrap gap-3">
+      @for (topic of topics; track topic) {
+        <a [routerLink]="['/category', topic.toLowerCase().replace(/\s+/g,'-')]" class="badge text-sm">{{ topic }}</a>
+      }
+    </div>
+  </div>
+</section>

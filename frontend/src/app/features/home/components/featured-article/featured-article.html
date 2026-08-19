@@ -1,0 +1,42 @@
+<section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-6xl">
+    <h2 class="font-display text-2xl font-semibold text-ink">Featured Article</h2>
+
+    <div class="mt-6">
+      @if (post()) {
+        <article class="card grid grid-cols-1 gap-0 overflow-hidden md:grid-cols-2">
+          <div class="bg-surface/60 flex items-center justify-center p-6 md:p-0">
+            @if (post()!.featuredImage) {
+              <img [src]="post()!.featuredImage" [alt]="post()!.title" class="h-56 w-full object-cover md:h-full" />
+            } @else {
+              <div class="flex h-56 w-full items-center justify-center md:h-full">
+                <span class="font-mono text-4xl text-ink/20">&lt;/&gt;</span>
+              </div>
+            }
+          </div>
+
+          <div class="p-6">
+            <div class="flex items-center gap-2">
+              <span class="badge">{{ post()!.category.name }}</span>
+              <span class="text-xs text-ink/50">• {{ post()!.readingTime }} min</span>
+            </div>
+
+            <h3 class="mt-3 text-2xl font-display font-semibold text-ink">{{ post()!.title }}</h3>
+            <p class="mt-3 text-sm text-ink/70">{{ post()!.excerpt }}</p>
+            <div class="mt-4 flex items-center gap-3 text-xs text-ink/60">
+              <span class="font-mono">{{ post()!.author.name }}</span>
+              <span>•</span>
+              <time>{{ post()!.publishedAt }}</time>
+            </div>
+
+            <div class="mt-6">
+              <a [routerLink]="['/blog', post()!.slug]" class="btn-primary">Read Article →</a>
+            </div>
+          </div>
+        </article>
+      } @else {
+        <p class="text-sm text-ink/70">No featured article available.</p>
+      }
+    </div>
+  </div>
+</section>

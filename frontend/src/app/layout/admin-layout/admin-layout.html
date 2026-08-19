@@ -1,0 +1,24 @@
+<div class="min-h-screen bg-surface text-ink">
+  <dj-admin-header [onToggle]="toggleSidebar" />
+
+  <div class="relative flex">
+    <!-- Desktop sidebar -->
+    <aside class="hidden w-64 shrink-0 border-r border-border bg-surface md:block">
+      <dj-admin-sidebar />
+    </aside>
+
+    <!-- Mobile sidebar overlay -->
+    @if (isSidebarOpen()) {
+      <div class="fixed inset-0 z-50 md:hidden">
+        <div class="absolute inset-0 bg-ink/40" (click)="closeSidebar()" aria-hidden="true"></div>
+        <div class="absolute left-0 top-0 h-full w-64 overflow-y-auto border-r border-border bg-surface">
+          <dj-admin-sidebar />
+        </div>
+      </div>
+    }
+
+    <main class="flex-1 min-h-screen pt-14">
+      <router-outlet />
+    </main>
+  </div>
+</div>
