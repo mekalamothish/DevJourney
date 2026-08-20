@@ -28,7 +28,11 @@
 
 @layer base {
   body {
-    @apply bg-canvas text-ink font-sans antialiased;
+    @apply bg-canvas text-ink font-sans antialiased transition-colors duration-300;
+  }
+
+  html.dark {
+    @apply bg-gray-950 text-gray-50;
   }
 
   h1,
@@ -41,8 +45,16 @@
     @apply bg-accent/30 text-ink;
   }
 
+  html.dark ::selection {
+    @apply bg-blue-500/30 text-gray-50;
+  }
+
   :focus-visible {
     @apply outline-accent outline-2 outline-offset-2;
+  }
+
+  html.dark :focus-visible {
+    @apply outline-blue-500 outline-2 outline-offset-2;
   }
 }
 
@@ -52,14 +64,26 @@
     @apply hover:bg-ink/85 focus-visible:outline-accent inline-flex items-center justify-center gap-2 rounded-md bg-ink px-4 py-2 text-sm font-medium text-canvas transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
   }
 
+  html.dark .btn-primary {
+    @apply bg-gray-100 text-gray-900 hover:bg-gray-200;
+  }
+
   /* Amber-filled button — reserved for the single highest-emphasis action
      on a screen (header CTA, newsletter subscribe). Spend it deliberately. */
   .btn-accent {
     @apply hover:bg-accent/90 focus-visible:outline-ink inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-ink transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
   }
 
+  html.dark .btn-accent {
+    @apply bg-blue-600 text-white hover:bg-blue-700 focus-visible:outline-blue-500;
+  }
+
   .btn-secondary {
     @apply hover:border-ink/30 focus-visible:outline-accent inline-flex items-center justify-center gap-2 rounded-md border border-border bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  html.dark .btn-secondary {
+    @apply border-gray-700 bg-gray-800 text-gray-100 hover:border-gray-600;
   }
 
   /* Mono-set pill, used for category/tag badges — a quiet nod to the
@@ -68,11 +92,23 @@
     @apply text-ink/70 inline-flex items-center rounded-full border border-border bg-surface px-2.5 py-0.5 font-mono text-xs;
   }
 
+  html.dark .badge {
+    @apply border-gray-700 bg-gray-800 text-gray-300;
+  }
+
   .card {
-    @apply rounded-lg border border-border bg-surface;
+    @apply rounded-lg border border-border bg-surface transition-colors duration-300;
+  }
+
+  html.dark .card {
+    @apply border-gray-800 bg-gray-900;
   }
 
   .link-quiet {
     @apply text-ink/70 hover:text-ink underline-offset-4 hover:underline;
+  }
+
+  html.dark .link-quiet {
+    @apply text-gray-400 hover:text-gray-100;
   }
 }

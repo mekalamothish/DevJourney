@@ -1,25 +1,25 @@
-<footer class="border-t border-border bg-ink text-canvas">
+<footer class="border-t border-gray-200 dark:border-gray-800 bg-gray-900 dark:bg-gray-950 text-white transition-colors duration-300">
   <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
     <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
       <div class="max-w-sm">
         <a routerLink="/" class="flex items-center gap-2.5">
           <span
-            class="flex h-8 w-8 items-center justify-center rounded-md bg-accent font-mono text-sm font-semibold text-ink"
+            class="flex h-8 w-8 items-center justify-center rounded-md bg-blue-600 font-mono text-sm font-semibold text-white"
             aria-hidden="true"
             >&lt;/&gt;</span
           >
-          <span class="font-display text-lg font-semibold tracking-tight text-canvas">{{
+          <span class="font-display text-lg font-semibold tracking-tight text-white">{{
             site.name
           }}</span>
         </a>
-        <p class="mt-4 text-sm leading-relaxed text-canvas/70">{{ site.description }}</p>
+        <p class="mt-4 text-sm leading-relaxed text-gray-400">{{ site.description }}</p>
         <div class="mt-5 flex flex-wrap gap-2">
           @for (item of site.social; track item.label) {
             <a
               [href]="item.url"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1 rounded-full border border-canvas/20 px-2.5 py-1 font-mono text-xs text-canvas/70 transition-colors hover:border-canvas/40 hover:text-canvas"
+              class="inline-flex items-center gap-1 rounded-full border border-gray-700 hover:border-gray-600 px-2.5 py-1 font-mono text-xs text-gray-400 transition-colors hover:text-gray-200"
             >
               {{ item.label }}
               <span aria-hidden="true">↗</span>
@@ -29,11 +29,11 @@
       </div>
 
       <nav aria-label="Footer navigation">
-        <h2 class="font-display text-sm font-semibold text-canvas">Navigate</h2>
+        <h2 class="font-display text-sm font-semibold text-white">Navigate</h2>
         <ul class="mt-4 space-y-2.5">
           @for (link of site.footer.navigation; track link.label) {
             <li>
-              <a [routerLink]="link.path" class="text-sm text-canvas/70 hover:text-canvas">{{
+              <a [routerLink]="link.path" class="text-sm text-gray-400 hover:text-white transition-colors">{{
                 link.label
               }}</a>
             </li>
@@ -42,11 +42,11 @@
       </nav>
 
       <nav aria-label="Footer topics">
-        <h2 class="font-display text-sm font-semibold text-canvas">Topics</h2>
+        <h2 class="font-display text-sm font-semibold text-white">Topics</h2>
         <ul class="mt-4 space-y-2.5">
           @for (link of site.footer.topics; track link.label) {
             <li>
-              <a [routerLink]="link.path" class="text-sm text-canvas/70 hover:text-canvas">{{
+              <a [routerLink]="link.path" class="text-sm text-gray-400 hover:text-white transition-colors">{{
                 link.label
               }}</a>
             </li>
@@ -55,7 +55,7 @@
       </nav>
 
       <nav aria-label="Footer resources">
-        <h2 class="font-display text-sm font-semibold text-canvas">Resources</h2>
+        <h2 class="font-display text-sm font-semibold text-white">Resources</h2>
         <ul class="mt-4 space-y-2.5">
           @for (link of site.footer.resources; track link.label) {
             <li>
@@ -64,14 +64,14 @@
                   [href]="link.path"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-sm text-canvas/70 hover:text-canvas"
+                  class="text-sm text-gray-400 hover:text-white transition-colors"
                   >{{ link.label }}</a
                 >
               } @else {
                 <a
                   [routerLink]="link.path"
                   [fragment]="link.fragment"
-                  class="text-sm text-canvas/70 hover:text-canvas"
+                  class="text-sm text-gray-400 hover:text-white transition-colors"
                   >{{ link.label }}</a
                 >
               }
@@ -81,7 +81,7 @@
       </nav>
     </div>
 
-    <div class="mt-12 border-t border-canvas/10 pt-6 text-xs text-canvas/50">
+    <div class="mt-12 border-t border-gray-800 pt-6 text-xs text-gray-500">
       <p>&copy; {{ currentYear }} {{ site.name }}. All rights reserved.</p>
     </div>
   </div>

@@ -1,14 +1,28 @@
 <section class="my-8">
-  <h3 class="text-lg font-semibold text-ink">Frequently Asked Questions</h3>
-  <div class="mt-4">
-    <div *ngFor="let f of items; let i = index" class="border-b py-3">
-      <button (click)="toggle(i)" class="w-full text-left">
-        <div class="flex items-center justify-between">
-          <div class="text-sm font-medium text-ink">{{ f.q }}</div>
-          <div class="text-ink/60">{{ openIndex === i ? '−' : '+' }}</div>
-        </div>
-      </button>
-      <div *ngIf="openIndex === i" class="mt-2 text-ink/90">{{ f.a }}</div>
-    </div>
+  <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Frequently Asked Questions</h3>
+  <div class="mt-4 rounded-xl border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 overflow-hidden">
+    @for (f of items; track f.q; let i = $index) {
+      <div>
+        <button 
+          (click)="toggle(i)" 
+          type="button"
+          class="w-full text-left px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors"
+        >
+          <div class="flex items-center justify-between gap-4">
+            <div class="text-sm font-medium text-gray-900 dark:text-white">{{ f.q }}</div>
+            <svg 
+              class="w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" 
+              [class.rotate-45]="openIndex === i"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </div>
+        </button>
+        @if (openIndex === i) {
+          <div class="px-4 pb-4 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{{ f.a }}</div>
+        }
+      </div>
+    }
   </div>
 </section>

@@ -1,23 +1,23 @@
-<div class="min-h-screen bg-surface text-ink">
+<div class="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-300">
   <dj-admin-header [onToggle]="toggleSidebar" />
 
   <div class="relative flex">
     <!-- Desktop sidebar -->
-    <aside class="hidden w-64 shrink-0 border-r border-border bg-surface md:block">
+    <aside class="hidden w-64 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 md:block transition-colors duration-300">
       <dj-admin-sidebar />
     </aside>
 
     <!-- Mobile sidebar overlay -->
     @if (isSidebarOpen()) {
       <div class="fixed inset-0 z-50 md:hidden">
-        <div class="absolute inset-0 bg-ink/40" (click)="closeSidebar()" aria-hidden="true"></div>
-        <div class="absolute left-0 top-0 h-full w-64 overflow-y-auto border-r border-border bg-surface">
+        <div class="absolute inset-0 bg-gray-900/40 dark:bg-gray-950/60 transition-colors duration-300" (click)="closeSidebar()" aria-hidden="true"></div>
+        <div class="absolute left-0 top-0 h-full w-64 overflow-y-auto border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
           <dj-admin-sidebar />
         </div>
       </div>
     }
 
-    <main class="flex-1 min-h-screen pt-14">
+    <main class="flex-1 min-h-screen pt-14 bg-white dark:bg-gray-950 transition-colors duration-300">
       <router-outlet />
     </main>
   </div>

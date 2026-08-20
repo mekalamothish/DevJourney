@@ -1,53 +1,96 @@
 @if (isLoading()) {
-  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-3xl text-center">
-      <p class="text-sm text-ink/60">Loading article...</p>
+  <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <div class="animate-pulse space-y-6">
+        <div class="h-4 w-32 rounded bg-gray-200 dark:bg-gray-800"></div>
+        <div class="h-10 w-3/4 rounded bg-gray-200 dark:bg-gray-800"></div>
+        <div class="h-64 w-full rounded-xl bg-gray-200 dark:bg-gray-800"></div>
+        <div class="space-y-3">
+          <div class="h-4 w-full rounded bg-gray-200 dark:bg-gray-800"></div>
+          <div class="h-4 w-full rounded bg-gray-200 dark:bg-gray-800"></div>
+          <div class="h-4 w-2/3 rounded bg-gray-200 dark:bg-gray-800"></div>
+        </div>
+      </div>
     </div>
   </section>
 } @else if (error()) {
-  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-3xl text-center">
-      <h2 class="font-display text-2xl font-semibold text-ink">{{ error() }}</h2>
-      <p class="mt-3 text-sm text-ink/70">The article you're looking for doesn't exist or couldn't be loaded.</p>
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-md text-center">
+      <div class="mx-auto w-12 h-12 rounded-full bg-red-50 dark:bg-red-950 flex items-center justify-center">
+        <svg class="w-6 h-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+        </svg>
+      </div>
+      <h2 class="mt-4 font-display text-2xl font-semibold text-gray-900 dark:text-white">{{ error() }}</h2>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">The article you're looking for doesn't exist or couldn't be loaded.</p>
       <div class="mt-6">
-        <a routerLink="/blog" class="btn-secondary">← Back to Articles</a>
+        <a 
+          routerLink="/blog" 
+          class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          Back to Articles
+        </a>
       </div>
     </div>
   </section>
 } @else if (!post()) {
-  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-3xl text-center">
-      <h2 class="font-display text-2xl font-semibold text-ink">Article Not Found</h2>
-      <p class="mt-3 text-sm text-ink/70">The article you're looking for doesn't exist.</p>
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-md text-center">
+      <div class="mx-auto w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+        <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+        </svg>
+      </div>
+      <h2 class="mt-4 font-display text-2xl font-semibold text-gray-900 dark:text-white">Article Not Found</h2>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">The article you're looking for doesn't exist.</p>
       <div class="mt-6">
-        <a routerLink="/blog" class="btn-secondary">← Back to Articles</a>
+        <a 
+          routerLink="/blog" 
+          class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          Back to Articles
+        </a>
       </div>
     </div>
   </section>
 } @else {
   <article class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-    <a routerLink="/blog" class="text-sm link-quiet">← Back to Articles</a>
+    <a 
+      routerLink="/blog" 
+      class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+    >
+      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      Back to Articles
+    </a>
 
-    <div class="mt-4 lg:flex lg:gap-10">
-      <main class="prose mx-auto w-full max-w-3xl lg:order-2">
+    <div class="mt-4 lg:flex lg:gap-10 lg:items-start">
+      <main class="prose dark:prose-invert mx-auto w-full max-w-3xl lg:order-2">
         <dj-article-header [post]="post()!" />
 
         <dj-article-content [blocks]="post()!.content || []" />
 
         <dj-article-navigation [prev]="prev()" [next]="next()" />
 
-        <dj-related-articles [posts]="related()" />
+        <!-- <dj-related-articles [posts]="related()" /> -->
 
         <dj-article-author [author]="post()!.author" />
       </main>
 
-      <aside class="hidden lg:order-1 lg:block lg:w-72">
+      <aside class="hidden lg:order-1 lg:block lg:w-72 lg:sticky lg:top-8">
         <dj-article-toc [blocks]="post()!.content || []" />
-        <div class="mt-6">
+        <!-- <div class="mt-6">
           <dj-article-share />
-        </div>
+        </div> -->
         <div class="mt-6">
-        <dj-related-articles [posts]="related()" [compact]="true" />
+          <dj-related-articles [posts]="related()" [compact]="true" />
         </div>
       </aside>
     </div>

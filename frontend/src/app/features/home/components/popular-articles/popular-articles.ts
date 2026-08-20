@@ -16,7 +16,7 @@ export class PopularArticles {
     // Load published articles marked as popular
     this.articleApi.getArticles({ pageSize: 20, status: 'published' }).subscribe({
       next: (response) => {
-        const popular = response.data.filter(a => a.isPopular).slice(0, 6);
+        const popular = response.data.filter(a => !a.isPopular).slice(0, 6);
         this.posts.set(popular);
       },
       error: () => {

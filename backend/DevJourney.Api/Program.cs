@@ -1,13 +1,14 @@
 using DevJourney.Infrastructure.Configuration;
 using DevJourney.Application.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Use native .NET OpenAPI generator and Scalar UI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
+
 
 // Add CORS policy for local development
 builder.Services.AddCors(options =>
@@ -63,6 +64,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 // Expose OpenAPI in all environments
 app.MapOpenApi();
+
+// Use Scalar UI instead of Swagger UI (works with native OpenAPI)
+app.MapScalarApiReference();
+
 
 // Enable CORS
 app.UseCors("LocalDevelopment");

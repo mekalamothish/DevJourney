@@ -1,9 +1,9 @@
-<header class="sticky top-0 z-40 border-b border-border bg-surface">
+<header class="sticky top-0 z-40 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors duration-300">
   <div class="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
     <div class="flex items-center gap-3">
       <button
         type="button"
-        class="md:hidden text-ink inline-flex h-10 w-10 items-center justify-center rounded-md focus-visible:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2"
+        class="md:hidden text-gray-900 dark:text-white inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:outline-blue-500 dark:focus-visible:outline-blue-400 focus-visible:outline-2 focus-visible:outline-offset-2 transition-colors"
         (click)="onToggle?.()"
         aria-label="Toggle sidebar"
       >
@@ -15,13 +15,16 @@
       </button>
 
       <a routerLink="/admin" class="flex items-center gap-2.5">
-        <span class="flex h-8 w-8 items-center justify-center rounded-md bg-accent font-mono text-sm font-semibold text-ink" aria-hidden="true">&lt;/&gt;</span>
-        <span class="font-display text-base font-semibold tracking-tight text-ink">Admin</span>
+        <span class="flex h-8 w-8 items-center justify-center rounded-md bg-blue-600 font-mono text-sm font-semibold text-white" aria-hidden="true">&lt;/&gt;</span>
+        <span class="font-display text-base font-semibold tracking-tight text-gray-900 dark:text-white">Admin</span>
       </a>
     </div>
 
-    <div class="flex items-center gap-3">
-      <a routerLink="/" class="text-sm text-ink/70 hover:text-ink">View site</a>
+    <div class="flex items-center gap-4">
+      <!-- Theme Toggle -->
+      <dj-theme-toggle />
+
+      <a routerLink="/" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">View site</a>
     </div>
   </div>
 </header>

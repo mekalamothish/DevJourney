@@ -1,65 +1,142 @@
-<section class="mt-8">
-  <div *ngFor="let b of blocks">
-    <ng-container [ngSwitch]="b.type">
+<section class="mt-8 max-w-none">
+  @for (b of blocks; track $index) {
+    @switch (b.type) {
 
-      <p *ngSwitchCase="'paragraph'" class="mt-4 text-ink/90">{{ $any(b).text }}</p>
+      @case ('paragraph') {
+        <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300">{{ $any(b).text }}</p>
+      }
 
-      <h2 *ngSwitchCase="'heading'" [id]="$any(b).id" class="mt-8 scroll-mt-28 text-2xl font-semibold text-ink">{{ $any(b).text }}</h2>
+      @case ('heading') {
+        <h2 [id]="$any(b).id" class="mt-10 scroll-mt-28 text-2xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $any(b).text }}</h2>
+      }
 
-      <h3 *ngSwitchCase="'subheading'" [id]="$any(b).id" class="mt-6 text-lg font-semibold text-ink">{{ $any(b).text }}</h3>
+      @case ('subheading') {
+        <h3 [id]="$any(b).id" class="mt-8 scroll-mt-28 text-lg font-semibold text-gray-900 dark:text-white">{{ $any(b).text }}</h3>
+      }
 
-      <ul *ngSwitchCase="'list'" class="ml-6 mt-4 list-disc text-ink/90">
-        <li *ngFor="let li of $any(b).items">{{ li }}</li>
-      </ul>
-
-      <dj-code-block *ngSwitchCase="'code'" [code]="$any(b).code" [language]="$any(b).language"></dj-code-block>
-
-      <div *ngSwitchCase="'terminal'" class="my-6 rounded-md border bg-black/90 text-white">
-        <div class="px-3 py-2 text-xs text-white/70">Terminal</div>
-        <pre class="overflow-auto p-4 text-sm font-mono"><code>{{ $any(b).commands }}</code></pre>
-      </div>
-
-      <blockquote *ngSwitchCase="'quote'" class="mt-6 border-l-2 pl-4 italic text-ink/80">{{ $any(b).text }}</blockquote>
-
-      <div *ngSwitchCase="'callout'" class="my-6 rounded-md border-l-4 px-4 py-3" [ngClass]="{
-        'border-blue-400 bg-blue-50': $any(b).variant === 'note',
-        'border-green-400 bg-green-50': $any(b).variant === 'tip',
-        'border-yellow-400 bg-yellow-50': $any(b).variant === 'warning',
-        'border-red-400 bg-red-50': $any(b).variant === 'important'
-      }">
-        <div class="font-semibold text-ink">{{ $any(b).heading || $any(b).title }}</div>
-        <div class="mt-2 text-ink/90">{{ $any(b).text }}</div>
-      </div>
-
-      <div *ngSwitchCase="'table'" class="my-6 overflow-auto">
-        <table class="w-full table-auto text-left">
-          <thead>
-            <tr>
-              <th *ngFor="let h of $any(b).headers" class="px-2 py-1 text-sm font-semibold text-ink">{{ h }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of $any(b).rows">
-              <td *ngFor="let cell of row" class="px-2 py-1 text-ink/90">{{ cell }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div *ngSwitchCase="'image'" class="my-6">
-        <img [src]="$any(b).src" [alt]="$any(b).alt || ''" class="w-full rounded-md object-cover" />
-        <div *ngIf="$any(b).caption" class="mt-2 text-sm text-ink/60">{{ $any(b).caption }}</div>
-      </div>
-
-      <div *ngSwitchCase="'takeaways'" class="my-6 rounded-md border bg-canvas p-4">
-        <div class="font-semibold text-ink">Key Takeaways</div>
-        <ul class="mt-3 ml-4 list-outside list-disc text-ink/90">
-          <li *ngFor="let t of $any(b).items">{{ t }}</li>
+      @case ('list') {
+        <ul class="mt-4 ml-5 space-y-1.5 list-disc marker:text-gray-400 dark:marker:text-gray-600 text-gray-700 dark:text-gray-300">
+          @for (li of $any(b).items; track $index) {
+            <li class="pl-1 leading-relaxed">{{ li }}</li>
+          }
         </ul>
-      </div>
+      }
 
-      <dj-article-faq *ngSwitchCase="'faq'" [items]="$any(b).items"></dj-article-faq>
+      @case ('code') {
+        <dj-code-block class="block my-6" [code]="$any(b).code" [language]="$any(b).language"></dj-code-block>
+      }
 
-    </ng-container>
-  </div>
+      @case ('terminal') {
+        <div class="my-6 rounded-xl border border-gray-700/50 bg-gray-900 dark:bg-black shadow-lg overflow-hidden">
+          <div class="flex items-center gap-1.5 px-4 py-2.5 bg-gray-800/80 border-b border-gray-700/50">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+            <span class="ml-2 text-[11px] text-gray-400 font-mono">terminal</span>
+          </div>
+          <pre class="overflow-auto p-4 text-sm font-mono text-gray-100 leading-relaxed"><code>{{ $any(b).commands }}</code></pre>
+        </div>
+      }
+
+      @case ('quote') {
+        <blockquote class="mt-6 border-l-4 border-gray-300 dark:border-gray-600 pl-4 py-1 italic text-gray-600 dark:text-gray-400">{{ $any(b).text }}</blockquote>
+      }
+
+      @case ('callout') {
+        <div class="my-6 flex gap-3 rounded-xl border px-4 py-3.5" [ngClass]="{
+          'border-blue-200 bg-blue-50 dark:border-blue-900/50 dark:bg-blue-950/30': $any(b).variant === 'note',
+          'border-green-200 bg-green-50 dark:border-green-900/50 dark:bg-green-950/30': $any(b).variant === 'tip',
+          'border-yellow-200 bg-yellow-50 dark:border-yellow-900/50 dark:bg-yellow-950/30': $any(b).variant === 'warning',
+          'border-red-200 bg-red-50 dark:border-red-900/50 dark:bg-red-950/30': $any(b).variant === 'important'
+        }">
+          <div class="shrink-0 mt-0.5">
+            @switch ($any(b).variant) {
+              @case ('note') {
+                <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                </svg>
+              }
+              @case ('tip') {
+                <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                </svg>
+              }
+              @case ('warning') {
+                <svg class="w-5 h-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              }
+              @case ('important') {
+                <svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                </svg>
+              }
+            }
+          </div>
+          <div class="min-w-0">
+            @if ($any(b).heading || $any(b).title) {
+              <div class="font-semibold text-gray-900 dark:text-white">{{ $any(b).heading || $any(b).title }}</div>
+            }
+            <div class="mt-1 text-gray-700 dark:text-gray-300 leading-relaxed">{{ $any(b).text }}</div>
+          </div>
+        </div>
+      }
+
+      @case ('table') {
+        <div class="my-6 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="bg-gray-50 dark:bg-gray-800/60">
+                @for (h of $any(b).headers; track $index) {
+                  <th class="px-4 py-2.5 font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap">{{ h }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+              @for (row of $any(b).rows; track $index) {
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors">
+                  @for (cell of row; track $index) {
+                    <td class="px-4 py-2.5 text-gray-600 dark:text-gray-300">{{ cell }}</td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      @case ('image') {
+        <figure class="my-6">
+          <img [src]="$any(b).src" [alt]="$any(b).alt || ''" class="w-full rounded-xl object-cover shadow-sm" />
+          @if ($any(b).caption) {
+            <figcaption class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">{{ $any(b).caption }}</figcaption>
+          }
+        </figure>
+      }
+
+      @case ('takeaways') {
+        <div class="my-6 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/40 p-5">
+          <div class="flex items-center gap-2 font-semibold text-gray-900 dark:text-white">
+            <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Key Takeaways
+          </div>
+          <ul class="mt-3 ml-1 space-y-2">
+            @for (t of $any(b).items; track $index) {
+              <li class="flex items-start gap-2 text-gray-700 dark:text-gray-300 leading-relaxed">
+                <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></span>
+                {{ t }}
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      @case ('faq') {
+        <dj-article-faq class="block my-6" [items]="$any(b).items"></dj-article-faq>
+      }
+
+    }
+  }
 </section>

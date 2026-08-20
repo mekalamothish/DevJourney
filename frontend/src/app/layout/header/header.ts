@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeToggle } from '../../shared/components/theme-toggle/theme-toggle';
 import { SITE_CONFIG } from '../../core/constants/site-config';
 
 @Component({
   selector: 'dj-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, ThemeToggle],
   templateUrl: './header.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

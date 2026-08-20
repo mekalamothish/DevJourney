@@ -1,45 +1,109 @@
-<section class="p-6">
+<section class="p-6 max-w-7xl mx-auto">
   @if (isLoading()) {
-    <div class="text-center">
-      <p class="text-sm text-ink/60">Loading article...</p>
+    <div class="mt-10 flex flex-col items-center justify-center gap-2 text-gray-400 dark:text-gray-500">
+      <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      <p class="text-sm">Loading article...</p>
     </div>
   } @else if (error()) {
-    <div class="rounded-md bg-red-50 p-4">
-      <p class="text-sm text-red-800">{{ error() }}</p>
+    <div class="flex items-start gap-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/40 p-4">
+      <svg class="w-4 h-4 text-red-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+      </svg>
+      <p class="text-sm text-red-800 dark:text-red-300">{{ error() }}</p>
     </div>
   } @else {
-    <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold">Post Editor</h1>
+    <!-- Sticky header -->
+    <div class="sticky top-0 z-10 -mx-6 px-6 py-3 flex items-center justify-between bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+      <h1 class="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Post Editor</h1>
       <div class="flex items-center gap-2">
-        <button (click)="saveDraft()" [disabled]="isSaving()" class="btn-ghost">{{ isSaving() ? 'Saving...' : 'Save Draft' }}</button>
+        <button 
+          (click)="saveDraft()" 
+          [disabled]="isSaving()" 
+          type="button"
+          class="px-3 py-1.5 text-sm font-medium rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {{ isSaving() ? 'Saving...' : 'Save Draft' }}
+        </button>
         @if (editingId) {
-          <a [routerLink]="['/admin/articles', editingId, 'preview']" class="btn-ghost">Preview</a>
+          <a 
+            [routerLink]="['/admin/articles', editingId, 'preview']" 
+            class="px-3 py-1.5 text-sm font-medium rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            Preview
+          </a>
         }
-        <button (click)="publish()" [disabled]="isSaving()" class="btn-primary">{{ isSaving() ? 'Publishing...' : 'Publish' }}</button>
-        <a [routerLink]="['/admin']" class="btn-ghost">Close</a>
+        <button 
+          (click)="publish()" 
+          [disabled]="isSaving()" 
+          type="button"
+          class="px-4 py-1.5 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 transition-all"
+        >
+          {{ isSaving() ? 'Publishing...' : 'Publish' }}
+        </button>
+        <a 
+          [routerLink]="['/admin']" 
+          class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300 transition-colors"
+          title="Close"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </a>
       </div>
     </div>
 
     <form class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
-      <div class="lg:col-span-2">
-        <label class="block">Title
-          <input [(ngModel)]="model().title" name="title" class="input w-full border p-2 border-gray-500/50 rounded-md" />
-        </label>
+      <div class="lg:col-span-2 space-y-5">
+        <!-- Core fields -->
+        <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm space-y-4">
+          <label class="block">
+            <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Title</span>
+            <input 
+              [(ngModel)]="model().title" 
+              name="title" 
+              placeholder="Article title"
+              class="mt-1 w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow" 
+            />
+          </label>
 
-        <label class="block mt-3">Slug
-          <input [(ngModel)]="model().slug" name="slug" class="input w-full border p-2 border-gray-500/50 rounded-md" />
-        </label>
+          <label class="block">
+            <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Slug</span>
+            <input 
+              [(ngModel)]="model().slug" 
+              name="slug" 
+              placeholder="article-slug"
+              class="mt-1 w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg font-mono text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow" 
+            />
+          </label>
 
-        <label class="block mt-3">Excerpt
-          <textarea [(ngModel)]="model().excerpt" name="excerpt" class="input rounded-md border border-gray-500/50 w-full h-24 p-2"></textarea>
-        </label>
+          <label class="block">
+            <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Excerpt</span>
+            <textarea 
+              [(ngModel)]="model().excerpt" 
+              name="excerpt" 
+              placeholder="Short summary shown in article previews..."
+              class="mt-1 w-full h-24 px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow resize-y"
+            ></textarea>
+          </label>
+        </div>
 
-        <div class="mt-4 border-t"></div>
+        <!-- Content blocks -->
+        <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Content Blocks</h3>
+            <span class="text-xs text-gray-400 dark:text-gray-500">{{ model().content.length || 0 }} block(s)</span>
+          </div>
 
-        <div class="mt-4">
-          <h3 class="font-semibold">Content Blocks</h3>
-          <div class="mt-2 flex gap-2">
-            <select [ngModel]="newBlockType()" (ngModelChange)="newBlockType.set($event)" name="blockType" class="input">
+          <div class="mt-3 flex gap-2">
+            <select 
+              [ngModel]="newBlockType()" 
+              (ngModelChange)="newBlockType.set($event)" 
+              name="blockType" 
+              class="flex-1 px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow"
+            >
               <option value="paragraph">Paragraph</option>
               <option value="heading">Heading</option>
               <option value="code">Code</option>
@@ -50,97 +114,246 @@
               <option value="faq">FAQ</option>
               <option value="terminal">Terminal</option>
             </select>
-            <button type="button" (click)="addBlock()" class="btn-ghost">Add</button>
+            <button 
+              type="button" 
+              (click)="addBlock()" 
+              class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+              Add
+            </button>
           </div>
 
           <div class="mt-4 space-y-3">
             @for (b of model().content; track $index) {
-              <div class="rounded-md border p-3 border-gray-500/50">
-                <div class="flex items-start justify-between">
-                  <div class="font-medium">{{ b.type }}</div>
-                  <div class="flex gap-2">
-                    <button type="button" (click)="moveUp($index)" class="btn-ghost">↑</button>
-                    <button type="button" (click)="moveDown($index)" class="btn-ghost">↓</button>
-                    <button type="button" (click)="removeBlock($index)" class="btn-danger">Delete</button>
+              <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/30 p-4">
+                <div class="flex items-center justify-between">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 uppercase tracking-wide">
+                    {{ b.type }}
+                  </span>
+                  <div class="flex items-center gap-0.5">
+                    <button 
+                      type="button" 
+                      (click)="moveUp($index)" 
+                      class="inline-flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-200 transition-colors"
+                      title="Move up"
+                    >
+                      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                      </svg>
+                    </button>
+                    <button 
+                      type="button" 
+                      (click)="moveDown($index)" 
+                      class="inline-flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-200 transition-colors"
+                      title="Move down"
+                    >
+                      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    </button>
+                    <button 
+                      type="button" 
+                      (click)="removeBlock($index)" 
+                      class="inline-flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors"
+                      title="Delete block"
+                    >
+                      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
 
-                <div class="mt-2">
+                <div class="mt-3">
                   @switch (b.type) {
                     @case ('paragraph') {
-                      <textarea [(ngModel)]="b.text" name="p-{{ $index }}" class="input w-full h-20 border border-gray-500/50 p-2 rounded-md"></textarea>
+                      <textarea 
+                        [(ngModel)]="b.text" 
+                        name="p-{{ $index }}" 
+                        placeholder="Paragraph text..."
+                        class="w-full h-20 px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow resize-y"
+                      ></textarea>
                     }
                     @case ('heading') {
-                      <input [(ngModel)]="b.text" name="h-{{ $index }}" class="input w-full border p-2 border-gray-500/50 rounded-md" placeholder="Heading text" />
-                      <input [(ngModel)]="b.id" name="hid-{{ $index }}" class="input w-full mt-2" placeholder="anchor id (optional)" />
+                      <div class="space-y-2">
+                        <input 
+                          [(ngModel)]="b.text" 
+                          name="h-{{ $index }}" 
+                          placeholder="Heading text" 
+                          class="w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow" 
+                        />
+                        <input 
+                          [(ngModel)]="b.id" 
+                          name="hid-{{ $index }}" 
+                          placeholder="Anchor id (optional)" 
+                          class="w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg font-mono text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow" 
+                        />
+                      </div>
                     }
                     @case ('code') {
-                      <input [(ngModel)]="b.language" name="lang-{{ $index }}" class="input w-full border p-2 border-gray-500/50 rounded-md" placeholder="Language (typescript)" />
-                      <textarea [(ngModel)]="b.code" name="code-{{ $index }}" class="input w-full h-40"></textarea>
+                      <div class="space-y-2">
+                        <input 
+                          [(ngModel)]="b.language" 
+                          name="lang-{{ $index }}" 
+                          placeholder="Language (typescript)" 
+                          class="w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg font-mono text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow" 
+                        />
+                        <textarea 
+                          [(ngModel)]="b.code" 
+                          name="code-{{ $index }}" 
+                          placeholder="Code content..."
+                          class="w-full h-40 px-3 py-2 bg-gray-900 dark:bg-black border border-gray-700 rounded-lg font-mono text-xs text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-shadow resize-y"
+                        ></textarea>
+                      </div>
                     }
                     @case ('list') {
-                      <textarea [(ngModel)]="b.itemsText" name="list-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="One list item per line"></textarea>
+                      <textarea 
+                        [(ngModel)]="b.itemsText" 
+                        name="list-{{ $index }}" 
+                        placeholder="One list item per line"
+                        class="w-full h-24 px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow resize-y"
+                      ></textarea>
                     }
                     @case ('callout') {
-                      <select [(ngModel)]="b.variant" name="variant-{{ $index }}" class="input">
-                        <option value="note">Note</option>
-                        <option value="tip">Tip</option>
-                        <option value="warning">Warning</option>
-                        <option value="important">Important</option>
-                      </select>
-                      <input [(ngModel)]="b.heading" name="chead-{{ $index }}" class="input w-full mt-2" placeholder="Callout heading (optional)" />
-                      <textarea [(ngModel)]="b.text" name="ctext-{{ $index }}" class="input w-full h-24 mt-2"></textarea>
+                      <div class="space-y-2">
+                        <select 
+                          [(ngModel)]="b.variant" 
+                          name="variant-{{ $index }}" 
+                          class="w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow"
+                        >
+                          <option value="note">Note</option>
+                          <option value="tip">Tip</option>
+                          <option value="warning">Warning</option>
+                          <option value="important">Important</option>
+                        </select>
+                        <input 
+                          [(ngModel)]="b.heading" 
+                          name="chead-{{ $index }}" 
+                          placeholder="Callout heading (optional)" 
+                          class="w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow" 
+                        />
+                        <textarea 
+                          [(ngModel)]="b.text" 
+                          name="ctext-{{ $index }}" 
+                          placeholder="Callout text..."
+                          class="w-full h-24 px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow resize-y"
+                        ></textarea>
+                      </div>
                     }
                     @case ('table') {
-                      <textarea [(ngModel)]="b.csv" name="table-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="Comma-separated rows, first row is headers"></textarea>
+                      <textarea 
+                        [(ngModel)]="b.csv" 
+                        name="table-{{ $index }}" 
+                        placeholder="Comma-separated rows, first row is headers"
+                        class="w-full h-24 px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg font-mono text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow resize-y"
+                      ></textarea>
                     }
                     @case ('takeaways') {
-                      <textarea [(ngModel)]="b.itemsText" name="take-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="One takeaway per line"></textarea>
+                      <textarea 
+                        [(ngModel)]="b.itemsText" 
+                        name="take-{{ $index }}" 
+                        placeholder="One takeaway per line"
+                        class="w-full h-24 px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow resize-y"
+                      ></textarea>
                     }
                     @case ('faq') {
-                      <textarea [(ngModel)]="b.itemsText" name="faq-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="Each FAQ on two lines: Q then A, separate pairs with a blank line"></textarea>
+                      <textarea 
+                        [(ngModel)]="b.itemsText" 
+                        name="faq-{{ $index }}" 
+                        placeholder="Each FAQ on two lines: Q then A, separate pairs with a blank line"
+                        class="w-full h-24 px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow resize-y"
+                      ></textarea>
                     }
                     @case ('terminal') {
                       <div>
-                        <label class="block text-sm font-medium mb-2">Terminal lines (one per line)</label>
-                        <textarea [(ngModel)]="b.linesText" name="term-{{ $index }}" class="input rounded-md border border-gray-500/50 w-full h-24 p-2" placeholder="One command per line"></textarea>
+                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Terminal lines (one per line)</label>
+                        <textarea 
+                          [(ngModel)]="b.linesText" 
+                          name="term-{{ $index }}" 
+                          placeholder="One command per line"
+                          class="w-full h-24 px-3 py-2 bg-gray-900 dark:bg-black border border-gray-700 rounded-lg font-mono text-xs text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-shadow resize-y"
+                        ></textarea>
                       </div>
                     }
                   }
                 </div>
               </div>
             }
+
+            @if (!model().content.length) {
+              <div class="text-center py-8 text-sm text-gray-400 dark:text-gray-500">
+                No blocks yet — add one using the selector above
+              </div>
+            }
           </div>
         </div>
       </div>
 
-      <aside class="lg:col-span-1">
-        <div class="rounded-md border border-gray-500/50 p-4 ">
-          <label class="block">Category
-            <select [(ngModel)]="model().categoryId" name="categoryId" class="input w-full border p-2 border-gray-500/50 rounded-md">
+      <!-- Sidebar -->
+      <aside class="lg:col-span-1 space-y-5">
+        <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm space-y-4">
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Metadata</h3>
+
+          <label class="block">
+            <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Category</span>
+            <select 
+              [(ngModel)]="model().categoryId" 
+              name="categoryId" 
+              class="mt-1 w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow"
+            >
               @for (c of categories(); track c.id) {
                 <option [value]="c.id">{{ c.name }}</option>
               }
             </select>
           </label>
-          <label class="block mt-3">Reading time
-            <input type="number" [(ngModel)]="model().readingTime" name="readingTime" class="input w-full border p-2 border-gray-500/50 rounded-md" />
+
+          <label class="block">
+            <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Reading time (min)</span>
+            <input 
+              type="number" 
+              [(ngModel)]="model().readingTime" 
+              name="readingTime" 
+              class="mt-1 w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow" 
+            />
           </label>
-          <label class="block mt-3">Author
-            <select [(ngModel)]="model().authorId" name="authorId" class="input w-full border p-2 border-gray-500/50 rounded-md">
+
+          <label class="block">
+            <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Author</span>
+            <select 
+              [(ngModel)]="model().authorId" 
+              name="authorId" 
+              class="mt-1 w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow"
+            >
               @for (a of authors(); track a.id) {
                 <option [value]="a.id">{{ a.name }}</option>
               }
             </select>
           </label>
-          <label class="block mt-3">Tags (comma separated)
-            <input [ngModel]="tagsCsv()" (ngModelChange)="tagsCsv.set($event)" name="tags" class="input w-full border p-2 border-gray-500/50 rounded-md" />
+
+          <label class="block">
+            <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Tags</span>
+            <input 
+              [ngModel]="tagsCsv()" 
+              (ngModelChange)="tagsCsv.set($event)" 
+              name="tags" 
+              placeholder="angular, blazor, docker"
+              class="mt-1 w-full px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow" 
+            />
           </label>
         </div>
 
-        <div class="mt-4 rounded-md border border-gray-500/50 p-4">
-          <div class="font-semibold">Preview</div>
-          <div class="mt-3">
+        <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Preview</h3>
+          </div>
+          <div class="mt-3 max-h-[600px] overflow-y-auto">
             <dj-article-content [blocks]="model().content || []"></dj-article-content>
           </div>
         </div>

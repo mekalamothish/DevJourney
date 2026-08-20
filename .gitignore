@@ -45,5 +45,7 @@ Thumbs.db
 
 # Local development SQLite DB
 /backend/DevJourney.Api/devjourney.db
+
 obj/
 bin/
+dist/

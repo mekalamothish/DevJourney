@@ -13,4 +13,7 @@ export class BlogSearch {
     const v = (ev.target as HTMLInputElement).value;
     this.valueChange.emit(v);
   }
+  clear() {
+  this.valueChange.emit('');
+}
 }

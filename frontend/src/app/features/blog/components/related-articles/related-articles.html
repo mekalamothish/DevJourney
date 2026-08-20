@@ -1,9 +1,49 @@
-<section class="mt-8">
-  <div class="flex items-center justify-between">
-    <h3 class="text-lg font-semibold text-ink">Related articles</h3>
+<section class="mt-10 pt-8 border-t border-gray-200 dark:border-gray-800">
+  <div class="flex items-center gap-2">
+    <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+    </svg>
+    <h3 [class]="compact ? 'text-sm font-semibold' : 'text-lg font-semibold'" class="text-gray-900 dark:text-white tracking-tight">
+      Related articles
+    </h3>
   </div>
 
-  <div class="mt-4 grid grid-cols-1 gap-4">
-    <dj-blog-card *ngFor="let p of posts" [post]="p"></dj-blog-card>
-  </div>
+  @if (compact) {
+    <!-- Compact: stacked list for sidebar -->
+    <div class="mt-4 space-y-1 divide-y divide-gray-100 dark:divide-gray-800">
+      @for (p of posts; track p.id) {
+        <a 
+          [routerLink]="['/blog', p.slug]" 
+          class="group flex items-start gap-3 py-3 first:pt-0 hover:bg-gray-50 dark:hover:bg-gray-800/30 -mx-2 px-2 rounded-lg transition-colors"
+        >
+          <div class="h-14 w-14 shrink-0 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+            @if (p.featuredImage) {
+              <img [src]="p.featuredImage" [alt]="p.title" class="h-full w-full object-cover" />
+            } @else {
+              <div class="h-full w-full flex items-center justify-center">
+                <span class="font-mono text-xs text-gray-300 dark:text-gray-700">&lt;/&gt;</span>
+              </div>
+            }
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium leading-snug text-gray-900 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              {{ p.title }}
+            </div>
+            <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ p.readingTime }} min read</div>
+          </div>
+        </a>
+      }
+    </div>
+  } @else {
+    <!-- Full: card grid for main column -->
+    <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      @for (p of posts; track p.id) {
+        <dj-blog-card [post]="p"></dj-blog-card>
+      }
+    </div>
+  }
 </section>
+
+
+<!--<dj-related-articles [posts]="related()" />    -->                  <!-- full width, main column -->
+<!--<dj-related-articles [posts]="related()" [compact]="true" /> -->    <!-- narrow, ~288px sidebar -->

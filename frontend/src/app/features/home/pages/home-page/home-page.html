@@ -1,20 +1,46 @@
-<dj-hero />
-<dj-highlight />
-<dj-featured-article />
-<dj-latest-articles />
-<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-  <div class="lg:flex lg:items-start lg:gap-10">
-    <div class="lg:flex-1">
-      <dj-popular-articles />
-    </div>
+<main>
+  <dj-hero />
 
-    <aside class="mt-8 lg:mt-0 w-full lg:w-80">
-      <dj-topics />
-      <dj-learning-roadmap />
-    </aside>
+  <div class="border-t border-gray-100 dark:border-gray-800">
+    <dj-highlight />
   </div>
-</div>
-<dj-interview-prep />
-<dj-resources />
-<dj-author />
-<dj-final-cta />
+
+  <div class="border-t border-gray-100 dark:border-gray-800">
+    <dj-featured-article />
+  </div>
+
+  <div class="border-t border-gray-100 dark:border-gray-800">
+    <dj-latest-articles />
+  </div>
+
+  <div class="border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="lg:flex lg:items-start lg:gap-12">
+        <div class="lg:flex-1 lg:max-w-3xl">
+          <dj-popular-articles />
+        </div>
+
+        <aside class="mt-10 lg:mt-0 w-full lg:w-80 shrink-0 space-y-10">
+          <dj-topics />
+          <dj-learning-roadmap />
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-gray-100 dark:border-gray-800">
+    <dj-interview-prep />
+  </div>
+
+  <div class="justify-center w-full flex items-center border-gray-100 dark:border-gray-800">
+    <dj-resources />
+  </div>
+
+  <div class="border-t border-gray-100 dark:border-gray-800">
+    <dj-author />
+  </div>
+
+  <div class="border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30">
+    <dj-final-cta />
+  </div>
+</main>

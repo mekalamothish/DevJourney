@@ -1,8 +1,37 @@
-<nav class="mt-8 flex items-center justify-between">
-  <div *ngIf="prev" class="flex items-center gap-3">
-    <a [routerLink]="['/blog', prev.slug]" class="link-quiet">← {{ prev.title }}</a>
-  </div>
-  <div *ngIf="next" class="ml-auto">
-    <a [routerLink]="['/blog', next.slug]" class="link-quiet">{{ next.title }} →</a>
-  </div>
+<nav class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
+  @if (prev) {
+    <a 
+      [routerLink]="['/blog', prev.slug]" 
+      class="group flex flex-col gap-1 rounded-xl border border-gray-200 dark:border-gray-700 p-4 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors"
+    >
+      <span class="inline-flex items-center gap-1 text-xs font-medium text-gray-400 dark:text-gray-500">
+        <svg class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        Previous
+      </span>
+      <span class="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+        {{ prev.title }}
+      </span>
+    </a>
+  } @else {
+    <div></div>
+  }
+
+  @if (next) {
+    <a 
+      [routerLink]="['/blog', next.slug]" 
+      class="group flex flex-col gap-1 rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-right hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors sm:ml-auto"
+    >
+      <span class="inline-flex items-center justify-end gap-1 text-xs font-medium text-gray-400 dark:text-gray-500">
+        Next
+        <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+        </svg>
+      </span>
+      <span class="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+        {{ next.title }}
+      </span>
+    </a>
+  }
 </nav>
