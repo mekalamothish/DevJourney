@@ -2,6 +2,10 @@
 
 # Compiled output
 /dist
+# Explicit frontend build output
+/frontend/dist/
+# Explicit backend build output folders (if any)
+/**/dist/
 /tmp
 /out-tsc
 /bazel-out
