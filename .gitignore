@@ -2,9 +2,7 @@
 
 # Compiled output
 /dist
-# Explicit frontend build output
 /frontend/dist/
-# Explicit backend build output folders (if any)
 /**/dist/
 /tmp
 /out-tsc
@@ -52,3 +50,7 @@ Thumbs.db
 
 obj/
 bin/
+node_modules/
+/**/node_modules/
+frontend/.angular/
+frontend/public/tinymce/

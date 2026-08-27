@@ -64,6 +64,10 @@ namespace DevJourney.Application.Validation
                         if (string.IsNullOrWhiteSpace(im.Alt))
                             throw new ValidationException("image.alt", "Image alt is required");
                         break;
+                    case RichTextBlock r:
+                        if (string.IsNullOrWhiteSpace(r.Html))
+                            throw new ValidationException("richtext.html", "Rich text HTML is required");
+                        break;
                     case TakeawaysBlock tk:
                         if (tk.Items == null || !tk.Items.Any())
                             throw new ValidationException("takeaways.items", "Takeaways must have at least one item");

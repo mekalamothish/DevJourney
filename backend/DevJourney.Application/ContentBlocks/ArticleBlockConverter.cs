@@ -29,6 +29,9 @@ namespace DevJourney.Application.ContentBlocks
                 "callout" => JsonSerializer.Deserialize<CalloutBlock>(json, options),
                 "table" => JsonSerializer.Deserialize<TableBlock>(json, options),
                 "image" => JsonSerializer.Deserialize<ImageBlock>(json, options),
+                // Legacy richtext blocks: deserialize then convert to paragraph to preserve
+                // API contract compatibility (richtext is a UI-only block in frontend).
+                "richtext" => ConvertRichTextToParagraph(JsonSerializer.Deserialize<RichTextBlock>(json, options)),
                 "takeaways" => JsonSerializer.Deserialize<TakeawaysBlock>(json, options),
                 "faq" => JsonSerializer.Deserialize<FaqBlock>(json, options),
                 _ => throw new JsonException($"Unknown ArticleBlock type: {type}")
@@ -43,6 +46,14 @@ namespace DevJourney.Application.ContentBlocks
                 return;
             }
 
+            // When writing, ensure we never emit a persisted 'richtext' discriminator.
+            // If a RichTextBlock is present (from legacy data), serialize it as a paragraph.
+            if (value is RichTextBlock rich)
+            {
+                var paragraph = new ParagraphBlock { Text = rich.Html };
+                value = paragraph;
+            }
+
             using var doc = JsonDocument.Parse(JsonSerializer.Serialize(value, value.GetType(), options));
             writer.WriteStartObject();
             writer.WriteString("type", value.Type);
@@ -55,6 +66,12 @@ namespace DevJourney.Application.ContentBlocks
             }
 
             writer.WriteEndObject();
+        }
+
+        private static ArticleBlock? ConvertRichTextToParagraph(RichTextBlock? rich)
+        {
+            if (rich == null) return null;
+            return new ParagraphBlock { Text = rich.Html };
         }
     }
 }

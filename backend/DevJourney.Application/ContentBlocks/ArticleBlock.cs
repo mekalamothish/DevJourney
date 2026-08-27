@@ -128,6 +128,16 @@ namespace DevJourney.Application.ContentBlocks
     }
 
     /// <summary>
+    /// Rich text block: arbitrary HTML produced by a rich editor.
+    /// </summary>
+    public class RichTextBlock : ArticleBlock
+    {
+        [System.Text.Json.Serialization.JsonIgnore]
+        public override string Type => "richtext";
+        public string Html { get; set; }
+    }
+
+    /// <summary>
     /// Takeaways block: list of key takeaways.
     /// </summary>
     public class TakeawaysBlock : ArticleBlock

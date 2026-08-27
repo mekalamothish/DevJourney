@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ArticleContent } from '../../../blog/components/article-content/article-content';
+import { RichTextEditorComponent } from '../../../../shared/rich-text-editor/rich-text-editor.component';
 import { RouterLink } from '@angular/router';
 import { ArticleApiService } from '../../../../core/services/article-api.service';
 import { CategoryApiService } from '../../../../core/services/category-api.service';
@@ -31,7 +32,7 @@ interface EditorModel {
 @Component({
   selector: 'dj-admin-post-editor-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, ArticleContent],
+  imports: [CommonModule, FormsModule, RouterLink, ArticleContent, RichTextEditorComponent],
   templateUrl: './admin-post-editor-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -154,6 +155,10 @@ export class AdminPostEditorPage {
         break;
       case 'heading':
         content.push({ type: 'heading', level: 2, id: 'section-' + (content.length + 1), text: 'New section' });
+        break;
+      case 'richtext':
+        // Create a dedicated richtext block that stores HTML produced by the editor.
+        content.push({ type: 'richtext', html: '<p>New rich text content</p>' });
         break;
       case 'code':
         content.push({ type: 'code', language: 'typescript', code: 'console.log("hello");' });

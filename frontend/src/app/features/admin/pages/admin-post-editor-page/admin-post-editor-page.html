@@ -106,6 +106,7 @@
             >
               <option value="paragraph">Paragraph</option>
               <option value="heading">Heading</option>
+              <option value="richtext">Rich text</option>
               <option value="code">Code</option>
               <option value="list">List</option>
               <option value="callout">Callout</option>
@@ -250,6 +251,9 @@
                         placeholder="Comma-separated rows, first row is headers"
                         class="w-full h-24 px-3 py-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg font-mono text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-shadow resize-y"
                       ></textarea>
+                    }
+                    @case ('richtext') {
+                      <app-rich-text-editor [(ngModel)]="b.html" [config]="{ height: 300 }"></app-rich-text-editor>
                     }
                     @case ('takeaways') {
                       <textarea 
